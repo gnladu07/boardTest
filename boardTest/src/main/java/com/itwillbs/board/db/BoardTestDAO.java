@@ -218,6 +218,30 @@ public class BoardTestDAO {
 		return btlist;
 	}
 	
+	// 해당 게시글의 조회수를 1 증가 - start
+	public void increseReadcount(int bno) {
+		
+		try {
+			conn = getConnectCP();
+			
+			sql = "update itwill_board set readcount = readcount + 1 where bno=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bno);
+			
+			pstmt.executeUpdate();
+			
+			System.out.println(" DAO : 글 조회수 1증가! ");
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
+		
+	}
+	
 	// 해당 게시글의 정보를 모두 가져오기 - start
 	public BoardTestDTO getBoard(int bno) {
 		BoardTestDTO dto = null;
@@ -260,6 +284,7 @@ public class BoardTestDAO {
 		return dto;
 	}
 	
+	// 게시글을 수정하는 메서드 - start
 	public int updateBoard(BoardTestDTO dto) {
 		int result = -1;
 		

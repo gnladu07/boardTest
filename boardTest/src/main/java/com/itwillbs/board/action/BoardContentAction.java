@@ -2,6 +2,7 @@ package com.itwillbs.board.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.itwillbs.board.db.BoardTestDAO;
 import com.itwillbs.board.db.BoardTestDTO;
@@ -18,7 +19,15 @@ public class BoardContentAction implements Action {
 		int bno = Integer.parseInt(request.getParameter("bno"));
 		String pageNum = request.getParameter("pageNum");
 		
+		HttpSession session = request.getSession();
+		boolean updateStatus = (boolean)session.getAttribute("updateStatus");
+		
 		BoardTestDAO dao = new BoardTestDAO();
+		
+		if(updateStatus) {
+			dao.increseReadcount(bno);
+			session.setAttribute("updateStatus", false);
+		}
 		
 		BoardTestDTO dto = dao.getBoard(bno);
 		System.out.println(" M : "+dto);

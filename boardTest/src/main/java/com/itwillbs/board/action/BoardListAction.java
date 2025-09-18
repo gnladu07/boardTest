@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.itwillbs.board.db.BoardTestDAO;
 import com.itwillbs.board.db.BoardTestDTO;
@@ -74,6 +75,9 @@ public class BoardListAction implements Action {
 		request.setAttribute("pageBlock", pageBlock);   // 페이지 블럭의 크기
 		request.setAttribute("startPage", startPage);   // 페이지 블럭의 시작번호
 		request.setAttribute("endPage", endPage);       // 페이지 블럭의 끝번호
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("updateStatus", true);
 		
 		ActionForward forward = new ActionForward();
 		forward.setPath("./board/boardList.jsp");
