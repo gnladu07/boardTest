@@ -23,7 +23,7 @@
 		<tr>
 			<th>${dto.bno }</th>
 			<td>
-				<a href="./BoardContent.bo?bno=${dto.bno }">
+				<a href="./BoardContent.bo?bno=${dto.bno }&pageNum=${pageNum }">
 					${dto.subject }
 				</a>
 			</td>
