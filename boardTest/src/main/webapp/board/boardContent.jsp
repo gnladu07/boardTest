@@ -65,6 +65,10 @@
 			       onclick=" location.href='./BoardDelete.bo?bno=${dto.bno}&pageNum=${pageNum }'; ">
 		</p>
 		<p>
+			<input type="button" value="답글" 
+			       onclick=" location.href='./BoardReWrite.bo?bno=${dto.bno}&pageNum=${pageNum }&re_ref=${dto.re_ref }&re_lev=${dto.re_lev }&re_seq=${dto.re_seq }'; ">
+		</p>
+		<p>
 			<input type="button" value="목록" 
 			       onclick=" location.href='./BoardList.bo?pageNum=${pageNum}'; ">
 		</p>
