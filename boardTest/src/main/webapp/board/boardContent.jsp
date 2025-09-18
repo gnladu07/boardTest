@@ -57,13 +57,16 @@
 			</li>
 		</ul>
 		<p>
-			<input type="button" value="수정" onclick=" location.href='./BoardUpdate.bo?bno=${dto.bno}'; ">
+			<input type="button" value="수정" 
+			       onclick=" location.href='./BoardUpdate.bo?bno=${dto.bno}&pageNum=${pageNum }'; ">
 		</p>
 		<p>
-			<input type="button" value="삭제" onclick=" location.href='./BoardDelete.bo?bno=${dto.bno}'; ">
+			<input type="button" value="삭제" 
+			       onclick=" location.href='./BoardDelete.bo?bno=${dto.bno}&pageNum=${pageNum }'; ">
 		</p>
 		<p>
-			<input type="button" value="목록" onclick=" location.href='./BoardList.bo'; ">
+			<input type="button" value="목록" 
+			       onclick=" location.href='./BoardList.bo?pageNum=${pageNum}'; ">
 		</p>
 	</fieldset>
 </form>

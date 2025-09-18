@@ -16,6 +16,7 @@ public class BoardContentAction implements Action {
 		System.out.println(" M : BoardContentAction_execute() 실행 ");
 		
 		int bno = Integer.parseInt(request.getParameter("bno"));
+		String pageNum = request.getParameter("pageNum");
 		
 		BoardTestDAO dao = new BoardTestDAO();
 		
@@ -23,6 +24,7 @@ public class BoardContentAction implements Action {
 		System.out.println(" M : "+dto);
 		
 		request.setAttribute("dto", dto);
+		request.setAttribute("pageNum", pageNum);
 		
 		ActionForward forward = new ActionForward();
 		forward.setPath("./board/boardContent.jsp");

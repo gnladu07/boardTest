@@ -51,7 +51,7 @@ public class BoardListAction implements Action {
 		int pageCount = totalCount / pageSize + (totalCount % pageSize == 0 ? 0 : 1);
 		
 		// 한 화면에 출력될 페이지 블럭의 크기(페이지의 개수)
-		int pageBlock = 2; // 1, 2, 3, 4 .... 10
+		int pageBlock = 5; // 1, 2, 3, 4 .... 10
 		
 		// 페이지 블럭의 시작번호 계산 1 ~ 10 => 1, 11 ~ 20 => 21 ~ 30
 		int startPage = ((currentPage - 1)/pageBlock) * pageBlock + 1;
