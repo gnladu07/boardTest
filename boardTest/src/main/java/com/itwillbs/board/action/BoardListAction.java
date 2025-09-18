@@ -42,7 +42,7 @@ public class BoardListAction implements Action {
 		
 		// List<BoardTestDTO> btList = dao.getBoardList(); // 일반 리스트 처리 
 		List<BoardTestDTO> btList = null;
-		if(totalCount < 0) {
+		if(totalCount > 0) {
 			btList = dao.getBoardList(startRow, pageSize);
 		}
 	

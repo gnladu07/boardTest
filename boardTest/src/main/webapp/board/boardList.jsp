@@ -36,5 +36,33 @@
 </table>
 <br>
 <input type="button" value="글쓰기" onclick=" location.href='./BoardWrite.bo'; ">
+<!-- 페이징 버튼 -->
+<div>
+	<c:if test="${startPage > pageBlock}" >
+		<!-- 이전 -->
+		<a href="./BoardList.bo?pageNum=${startPage - pageBlock }">
+			<img src="./img/btn_firstpage.png" alt="첫 페이지로 이동">
+		</a>
+	</c:if>
+	
+	<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
+		<a href="./BoardList.bo?pageNum=${i }">
+			<span class="pagenum 
+			<c:if test="${pageNum == i }">
+				currentpage
+			</c:if>
+			">${i }
+			</span>
+		</a>
+	</c:forEach>
+	
+	<c:if test="${endPage < pageCount }">
+		<!-- 다음 -->
+		<a href="./BoardList.bo?pageNum=${startPage + pageBlock }"> 
+			<img src="./img/btn_lastpage.png" alt="마지막 페이지로 이동">
+		</a>
+	</c:if>
+</div>
+
 </body>
 </html>
