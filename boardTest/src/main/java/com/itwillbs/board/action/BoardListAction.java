@@ -25,7 +25,7 @@ public class BoardListAction implements Action {
 		
 		/**************************페이징 처리 1단계**************************/
 		// 한 페이지에 출력할 글의 개수
-		int pageSize = 5;
+		int pageSize = 10;
 		
 		// 현페이지 번호를 받아오는 작업
 		String pageNum = request.getParameter("pageNum");

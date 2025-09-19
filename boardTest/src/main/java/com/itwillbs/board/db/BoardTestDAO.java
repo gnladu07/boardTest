@@ -140,7 +140,7 @@ public class BoardTestDAO {
 			conn = getConnectCP();
 			
 			// sql = "select * from itwill_board order by bno desc"; 페이징 처리 전
-			sql = "select * from itwill_board order by bno desc limit 0, 5";
+			sql = "select * from itwill_board order by bno desc limit 0, 10";
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
