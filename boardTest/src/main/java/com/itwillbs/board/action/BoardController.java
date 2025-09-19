@@ -152,6 +152,21 @@ public class BoardController extends HttpServlet {
 				forward.setPath("./board/reWriteForm.jsp");
 				forward.setRedirect(false);
 			}
+			
+			else if(command.equals("/BoardReWriteAction.bo")) {
+				System.out.println(" C : /BoardReWriteAction.bo 매핑! ");
+				System.out.println(" C : 패턴 2 - 데이터추가(DB사용)O, 페이지이동O ");
+				
+				action = new BoardReWriteAction();
+				
+				try {
+					forward = action.execute(request, response);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
 		System.out.println("/********************2. 가상주소 매핑 - 끝*********************/");
 	
 		System.out.println("***************3. 가상주소 이동 - 시작 ***************");

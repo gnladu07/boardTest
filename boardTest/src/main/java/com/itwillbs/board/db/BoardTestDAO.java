@@ -111,7 +111,8 @@ public class BoardTestDAO {
 		try {
 			conn = getConnectCP();
 			
-			sql = "select count(*) from itwill_board";
+			// sql = "select count(*) from itwill_board";
+			sql = "select count(bno) from itwill_board"; // 이게 더 빠른 (고유값만)
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
@@ -138,7 +139,8 @@ public class BoardTestDAO {
 		try {
 			conn = getConnectCP();
 			
-			sql = "select * from itwill_board order by bno desc";
+			// sql = "select * from itwill_board order by bno desc"; 페이징 처리 전
+			sql = "select * from itwill_board order by bno desc limit 0, 5";
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
@@ -180,7 +182,8 @@ public class BoardTestDAO {
 		try {
 			conn = getConnectCP();
 			
-			sql = "select * from itwill_board order by bno desc limit ?,?";
+			// sql = "select * from itwill_board order by bno desc limit ?,?"; 기본 페이징 처리 sql 문
+			sql = "select * from itwill_board order by re_ref desc, re_seq asc limit ?,?"; // 답글 구현 후 sql 문
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, startRow - 1);
@@ -371,6 +374,68 @@ public class BoardTestDAO {
 		}
 		
 		return result;
+	}
+	
+	// 답글 쓰기 하는 메서드 - start
+	public void reWriteBoard(BoardTestDTO dto) {
+		int re_bno = 0;
+		
+		try {
+			conn = getConnectCP();
+			
+			// 1. bno 계산
+			sql = "select max(bno) from itwill_board";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				re_bno = rs.getInt(1) + 1;
+			}
+			System.out.println(" DAO : 답글번호 : "+re_bno);
+			
+			// 2. 답글을 작성전 글 재정렬 수행
+			sql = "update itwill_board set re_seq = re_seq + 1 "
+					+ " where re_ref = ? and re_seq > ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getRe_ref());
+			pstmt.setInt(2, dto.getRe_seq());
+			
+			int result = pstmt.executeUpdate();
+			if(result > 0) {
+				System.out.println(" DAO : 게시판 글 재정렬 실행! ");
+			}
+			
+			// 3. 답글 정보 저장
+			sql = "insert into itwill_board (bno, name, pass, subject, content,"
+					+ "readcount, re_ref, re_lev, re_seq, date, ip, file) "
+					+ "values(?,?,?,?,?,?,?,?,?,now(),?,?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, re_bno);            // 답글 번호
+			pstmt.setString(2, dto.getName());
+			pstmt.setString(3, dto.getPass());
+			pstmt.setString(4, dto.getSubject());
+			pstmt.setString(5, dto.getContent());
+			pstmt.setInt(6, 0);                 // 조회수 0
+				
+			pstmt.setInt(7, dto.getRe_ref());   // ref - 답글: 부모글(원글)의 re_ref값을 그대로 사용
+			pstmt.setInt(8, dto.getRe_lev()+1);   // lev - 답글: 부모글의 re_lev + 1
+			pstmt.setInt(9, dto.getRe_seq()+1);   // seq - 답글: 부모글의 re_seq + 1
+				
+			pstmt.setString(10, dto.getIp());
+			pstmt.setString(11, dto.getFile());
+			
+			pstmt.executeUpdate();
+			
+			System.out.println(" DAO : 답글 쓰기 성공! ");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
 	}
 	
 
