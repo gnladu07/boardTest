@@ -167,6 +167,7 @@ public class BoardController extends HttpServlet {
 				}
 				
 			}
+			
 		System.out.println("/********************2. 가상주소 매핑 - 끝*********************/");
 	
 		System.out.println("***************3. 가상주소 이동 - 시작 ***************");

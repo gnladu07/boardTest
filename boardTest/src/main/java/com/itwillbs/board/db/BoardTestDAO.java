@@ -132,6 +132,36 @@ public class BoardTestDAO {
 		return cnt;
 	}
 	
+	// 게시판 총 글 개수 조회(search) - start
+	public int getBoardCount(String search) {
+		int cnt = 0;
+		
+		try {
+			conn = getConnectCP();
+			
+			// sql = "select count(*) from itwill_board";
+			sql = "select count(bno) from itwill_board where subject like ?"; // 이게 더 빠른 (고유값만)
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+search+"%");
+			
+			rs = pstmt.executeQuery();
+			System.out.println(" DAO : 게시판 글 총 개수 조회 완료! ");
+			
+			if(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			System.out.println(" DAO : 총 개수는 "+cnt+"개 ");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
+		
+		return cnt;
+	}
+	
 	// 게시판 목록정보를 조회 - start
 	public List<BoardTestDTO> getBoardList(){
 		List<BoardTestDTO> btlist = new ArrayList<BoardTestDTO>();
@@ -188,6 +218,56 @@ public class BoardTestDAO {
 			
 			pstmt.setInt(1, startRow - 1);
 			pstmt.setInt(2, pageSize);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardTestDTO dto = new BoardTestDTO();
+				
+				dto.setBno(rs.getInt("bno"));
+				dto.setContent(rs.getString("content"));
+				dto.setDate(rs.getDate("date"));
+				dto.setFile(rs.getString("file"));
+				dto.setIp(rs.getString("ip"));
+				dto.setName(rs.getString("name"));
+				dto.setPass(rs.getString("pass"));
+				dto.setRe_lev(rs.getInt("re_lev"));
+				dto.setRe_ref(rs.getInt("re_ref"));
+				dto.setRe_seq(rs.getInt("re_seq"));
+				dto.setReadcount(rs.getInt("readcount"));
+				dto.setSubject(rs.getString("subject"));
+				
+				btlist.add(dto);
+			}
+			System.out.println(" DAO : 게시판 목록 조회 성공! ");
+			System.out.println(" DAO : 총 "+btlist.size()+"개");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			closeDB();
+		}
+		
+		return btlist;
+	}
+	
+	// 게시판 목록정보를 조회(+페이징) - start
+	public List<BoardTestDTO> getBoardList(int startRow, int pageSize, String search){
+		List<BoardTestDTO> btlist = new ArrayList<BoardTestDTO>();
+		
+		try {
+			conn = getConnectCP();
+			
+			// sql = "select * from itwill_board order by bno desc limit ?,?"; 기본 페이징 처리 sql 문
+			// sql = "select * from itwill_board order by re_ref desc, re_seq asc limit ?,?"; // 답글 구현 후 sql 문
+			sql = "select * from itwill_board "
+					+ "where subject like ?"
+					+ "order by re_ref desc, re_seq asc limit ?,?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+search+"%");
+			pstmt.setInt(2, startRow - 1);
+			pstmt.setInt(3, pageSize);
 			
 			rs = pstmt.executeQuery();
 			

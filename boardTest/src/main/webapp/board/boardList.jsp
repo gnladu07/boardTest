@@ -8,6 +8,15 @@
 <title>Insert title here</title>
 </head>
 <body>
+<form action="./BoardList.bo">
+	<fieldset>
+		<legend>검색&리스트</legend>
+		<input type="text" title="검색어를 입력하세요."
+		       name="search" placeholder="검색어를 입력해주세요.">
+		<input type="submit" value="검색">
+	</fieldset>
+</form>
+<fieldset>
 <table>
 	<thead>
 		<tr>
@@ -38,6 +47,7 @@
 		</c:forEach>
 	</tbody>
 </table>
+</fieldset>
 <br>
 <input type="button" value="글쓰기" onclick=" location.href='./BoardWrite.bo'; ">
 <!-- 페이징 버튼 -->

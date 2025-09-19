@@ -18,9 +18,21 @@ public class BoardListAction implements Action {
 			                     HttpServletResponse response) throws Exception {
 		System.out.println(" M : /BoardListAction.bo_execute() 실행!  ");
 		
+		String search = request.getParameter("search");
+		
 		BoardTestDAO dao = new BoardTestDAO();
 		// 전체 글 개수
-		int totalCount = dao.getBoardCount();
+		// int totalCount = dao.getBoardCount(); 검색어 처리 전 코드
+		int totalCount = 0;
+		if(search != null && !search.equals("")){ 
+			// search가 notNull and 빈문자열이 아니라면
+			System.out.println(" M : 검색어가 있을때! ");
+			totalCount = dao.getBoardCount(search);
+		} else {
+			System.out.println(" M : 검색어가 없을때! ");
+			totalCount = dao.getBoardCount();
+		}
+		
 		System.out.println(" M : totalCount : "+totalCount);
 		
 		/**************************페이징 처리 1단계**************************/
@@ -42,9 +54,17 @@ public class BoardListAction implements Action {
 		/**************************페이징 처리 1단계**************************/
 		
 		// List<BoardTestDTO> btList = dao.getBoardList(); // 일반 리스트 처리 
+//		List<BoardTestDTO> btList = null;
+//		if(totalCount > 0) {
+//			btList = dao.getBoardList(startRow, pageSize); // 페이징 처리 
+//		}
 		List<BoardTestDTO> btList = null;
 		if(totalCount > 0) {
-			btList = dao.getBoardList(startRow, pageSize);
+			if(search != null && !search.equals("")) {
+				btList = dao.getBoardList(startRow, pageSize, search);
+			} else {
+				btList = dao.getBoardList(startRow, pageSize);
+			}
 		}
 	
 		/**************************페이징 처리 2단계**************************/
@@ -75,6 +95,8 @@ public class BoardListAction implements Action {
 		request.setAttribute("pageBlock", pageBlock);   // 페이지 블럭의 크기
 		request.setAttribute("startPage", startPage);   // 페이지 블럭의 시작번호
 		request.setAttribute("endPage", endPage);       // 페이지 블럭의 끝번호
+		
+		request.setAttribute("search", search);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("updateStatus", true);
