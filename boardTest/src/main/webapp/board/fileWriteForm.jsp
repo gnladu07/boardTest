@@ -7,11 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>/board/BoardWrite.jsp</h1>
+	<h1>/board/fileBoardWrite.jsp</h1>
 	
-	<form action="./BoardWriteAction.bo" method="post">
+	<form action="./BoardFileWriteAction.bo" 
+		  method="post" enctype="multipart/form-data">
 	<fieldset>
-		<legend>글쓰기</legend>
+		<legend>파일 글쓰기</legend>
 		<p>${dto.date }</p>
 		<ul>
 			<li>
@@ -42,9 +43,15 @@
 			        </textarea>
 				</div>
 			</li>
-		</ul>
+			<li>
+				<label>파 일</label>
+				<div>
+					<input type="file" name="file">
+				</div>
+			</li>
+		</ul>     
 		<hr>
-		<input type="submit" value="글쓰기">
+		<input type="submit" value="파일 글쓰기">
 	</fieldset>
 	</form>
 </body>

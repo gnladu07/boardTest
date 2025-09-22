@@ -49,7 +49,11 @@
 </table>
 </fieldset>
 <br>
-<input type="button" value="글쓰기" onclick=" location.href='./BoardWrite.bo'; ">
+<input type="button" value="글쓰기" 
+       onclick=" location.href='./BoardWrite.bo'; ">
+       
+<input type="button" value="파일 글쓰기" 
+       onclick=" location.href='./BoardFlieWrite.bo'; ">
 <!-- 페이징 버튼 -->
 <div>
 	<c:if test="${startPage > pageBlock}" >

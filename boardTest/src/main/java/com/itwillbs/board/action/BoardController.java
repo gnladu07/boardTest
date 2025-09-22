@@ -168,6 +168,15 @@ public class BoardController extends HttpServlet {
 				
 			}
 			
+			else if(command.equals("/BoardFlieWrite.bo")) {
+				System.out.println(" C : /BoardFlieWrite.bo 매핑! ");
+				System.out.println(" C : 패턴 1 - 데이터추가(DB사용)O, 페이지이동O ");
+				
+				forward = new ActionForward();
+				forward.setPath("./board/fileWriteForm.jsp");
+				forward.setRedirect(false);
+			}
+			
 		System.out.println("/********************2. 가상주소 매핑 - 끝*********************/");
 	
 		System.out.println("***************3. 가상주소 이동 - 시작 ***************");
