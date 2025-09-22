@@ -51,8 +51,7 @@
 			<li>
 				<label>파 일</label>
 				<div>
-					<input type="text" name="name" 
-					       value="${dto.file }" readonly>
+					<a href="./upload/${dto.file }" download>${dto.file }</a>
 				</div>
 			</li>
 		</ul>
